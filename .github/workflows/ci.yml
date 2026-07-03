@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
+      
+      - name: Build project
+        run: |
+          xcodebuild build \
+            -project HermesAgent.xcodeproj \
+            -scheme HermesAgent \
+            -destination 'platform=iOS Simulator,name=iPad Pro 12.9-inch (M2),OS=17.2' \
+            -skipPackagePluginValidation \
+            CODE_SIGNING_ALLOWED=NO
+        env:
+          CI: true
+      
+      - name: Run tests
+        run: |
+          xcodebuild test \
+            -project HermesAgent.xcodeproj \
+            -scheme HermesAgent \
+            -destination 'platform=iOS Simulator,name=iPad Pro 12.9-inch (M2),OS=17.2' \
+            -skipPackagePluginValidation \
+            CODE_SIGNING_ALLOWED=NO
+        env:
+          CI: true
+
+  swift-pm-test:
+    name: Swift Package Manager Tests
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run Swift tests
+        run: swift test
+        working-directory: .

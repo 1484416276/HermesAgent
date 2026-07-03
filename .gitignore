@@ -1,0 +1,36 @@
+# Xcode
+*.xcworkspace
+xcuserdata/
+DerivedData/
+*.xcodeproj/xcuserdata
+*.xcodeproj/project.xcworkspace
+
+# Swift Package Manager
+.build/
+Packages/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+*.pkl
+
+# Testing
+fastlane/test_output
+
+# Environment
+.env
+.env.local
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Build products
+*.ipa
+*.dSYM.zip
+*.dSYM
